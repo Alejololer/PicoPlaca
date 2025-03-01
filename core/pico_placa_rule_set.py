@@ -86,7 +86,8 @@ class PicoPlacaRuleSet:
             return False
 
         day = datetime_input.weekday()
+        current_time = datetime_input.time()
         for rule in self.rules_by_day[day]:
-            if rule.is_restricted(day, datetime, digit):
+            if rule.is_restricted(day, current_time, digit):
                 return True
         return False
