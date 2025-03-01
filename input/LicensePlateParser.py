@@ -14,17 +14,12 @@ class LicensePlateParser:
             Returns:
                 int: The last digit of the license plate as an integer if the format is valid.
             Raises:
-                ValueError: If the license plate format is invalid or an error occurs during validation.
+                ValueError: If the license plate format is invalid.
     """
 
     @staticmethod
     def parseLicensePlate(license_plate: str) -> int:
-        try:
-            # Check if format is valid
-            if re.match("^[A-Z]{3}-[0-9]{3,4}$", license_plate):
-                # Extract the last character and convert to integer
-                return int(license_plate[-1])
-            else:
-                raise ValueError(f"Invalid license plate format: '{license_plate}'. Expected format: 'XXX-###' or 'XXX-####'")
-        except Exception as e:
-            raise ValueError(f"Unable to parse '{str(e)}'. Expected format: 'XXX-###' or 'XXX-####'")
+        if re.match("^[A-Z]{3}-[0-9]{3,4}$", license_plate):
+            return int(license_plate[-1])
+        else:
+            raise ValueError(f"Invalid license plate format: '{license_plate}'. Expected format: 'XXX-###' or 'XXX-####'")
