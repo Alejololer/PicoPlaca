@@ -4,27 +4,30 @@ PicoPlacaPredictor Module
 This module provides functionality to predict 'Pico y Placa' driving restrictions.
 'Pico y Placa' (Peak and Plate) is a traffic restriction policy implemented in various
 cities, particularly in Latin America, to reduce traffic congestion during peak hours.
-Vehicles are restricted from circulation based on the last digit of their license plates
-on specific days and times.
+
+The system restricts vehicles from circulating based on the last digit of their 
+license plates on specific days and during designated time periods.
 
 This module contains the PicoPlacaPredictor class which evaluates whether a vehicle
 with a given license plate is restricted from circulation at a specific date and time
 according to a defined rule set.
 """
 
-from datetime import datetime
-from .pico_placa_rule_set import PicoPlacaRuleSet
+from input import LicensePlateParser, DateTimeParser
+from output import OutputFormatter
+from .pico_placa_rule_set import PicoPlacaRuleSet, NoRulesDefinedError
 
 
 class PicoPlacaPredictor:
     """
-    A class to predict whether a vehicle has a restriction according to the 'Pico y Placa' rules.
-    This class evaluates if a license plate has a circulation restriction based on
-    the given date and time according to a specific rule set.
+    A class that predicts driving restrictions according to 'Pico y Placa' rules.
+    
+    This class determines if a vehicle is restricted from circulation based on
+    its license plate, date, and time, according to a specific rule set.
+    
     Attributes:
-        rule_set (PicoPlacaRuleSet): The rule set that defines the restrictions.
-    Methods:
-        predict_restriction(license_plate, dt): Determines if a vehicle is restricted.
+        rule_set (PicoPlacaRuleSet): The rule set defining the restriction parameters
+            including restricted days, times, and license plate digits.
     """
 
     rule_set: PicoPlacaRuleSet
@@ -32,20 +35,31 @@ class PicoPlacaPredictor:
     def __init__(self, rule_set: PicoPlacaRuleSet):
         self.rule_set = rule_set
 
-    def predict_restriction(self, last_digit: int, dt: datetime) -> bool:
+    def predict_restriction(self, license_plate: str, date: str, time: str) -> str:
         """
-        Predicts if a vehicle with the given last digit is restricted at the specified datetime.
-        This method applies the current rule set to determine if a vehicle with the provided
-        license plate's last digit has driving restrictions at the given date and time.
+        Predicts if a vehicle with the given license plate is restricted at the 
+        specified date and time.
+        
+        This method extracts the last digit from the license plate and evaluates it against
+        the current rule set to determine if driving restrictions apply at the given date and time.
+        
         Args:
-        last_digit : int
-            The last digit of the vehicle's license plate.
-        dt : datetime
-            The date and time to check for restrictions.
+            license_plate (str): The vehicle's license plate to check.
+            date (str): The date to check in an acceptable format 
+            (will be parsed by DateTimeParser).
+            time (str): The time to check in an acceptable format 
+            (will be parsed by DateTimeParser).
+            
         Returns:
-        bool
-            True if the vehicle is restricted from driving at the specified time,
-            False otherwise.
+            str: A formatted message indicating whether the vehicle is restricted or not,
+                 or an error message if input validation fails or an unexpected error occurs.
         """
-
-        return self.rule_set.is_vehicle_restricted(dt, last_digit)
+        try:
+            last_digit = LicensePlateParser.parse_license_plate(license_plate)
+            date_time = DateTimeParser.parse_datetime(date, time)
+            restricted = self.rule_set.is_vehicle_restricted(date_time, last_digit)
+            return OutputFormatter.format_prediction(restricted)
+        except ValueError as e:
+            return f"Error: {str(e)}"
+        except NoRulesDefinedError as e:
+            return f"Error: {str(e)}"
