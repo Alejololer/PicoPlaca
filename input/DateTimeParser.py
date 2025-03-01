@@ -3,15 +3,19 @@ from datetime import datetime
 
 class DateTimeParser:
     """
-    A class for parsing datetime strings into datetime objects.
-    This class provides a method to convert a string representation of date and time
-    into a Python datetime object using a specific format.
-    Attributes:
-        None
+    Parses datetime strings into datetime objects.
+    
     Methods:
         parse_datetime(date_time_str: str) -> datetime:
-            Parse a string representation of date and time into a datetime object.
+            Parses a date and time string in 'YYYY-MM-DD HH:MM:SS' format.
+        Returns:
+            datetime: The parsed datetime object.
+        Raises:
+            ValueError: If the string format is invalid or cannot be parsed.
     """
 
     def parse_datetime(self, date_time_str: str) -> datetime:
-        return datetime.strptime(date_time_str, "%Y-%m-%d %H:%M:%S")
+        try:
+            return datetime.strptime(date_time_str, "%Y-%m-%d %H:%M:%S")
+        except ValueError:
+            raise ValueError(f"Unable to parse '{date_time_str}'. Expected format: 'YYYY-MM-DD HH:MM:SS'")

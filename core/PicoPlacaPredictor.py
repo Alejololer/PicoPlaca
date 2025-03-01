@@ -20,6 +20,5 @@ class PicoPlacaPredictor:
     def __init__(self, rule_set: PicoPlacaRuleSet):
         self.rule_set = rule_set
 
-    def predict_restriction(self, license_plate: str, dt: datetime) -> bool:
-        last_digit = int(license_plate[-1])
+    def predict_restriction(self, last_digit: int, dt: datetime) -> bool:
         return self.rule_set.is_vehicle_restricted(dt, last_digit)
