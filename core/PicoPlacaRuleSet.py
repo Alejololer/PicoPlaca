@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import List
+from typing import List, Dict
 
 from .PicoPlacaRule import PicoPlacaRule
 
@@ -15,24 +15,25 @@ class PicoPlacaRuleSet:
     This class allows adding rules and checking whether a vehicle with a specific 
     last digit in its license plate is restricted from circulation at a given datetime.
     Attributes:
-        rules (List[PicoPlacaRule]): A list of PicoPlacaRule objects.
+        rules_by_day (dict): A dictionary mapping weekdays (0-4) to lists of PicoPlacaRule objects.
     Methods:
-        __init__(): Initializes an empty list of rules.
-        add_rule(rule): Adds a rule to the rule set.
+        __init__(): Initializes a dictionary of rules indexed by weekday.
+        add_rule(rule): Adds a rule to the rule set for the appropriate weekdays.
         has_rules(): Checks if any rules are defined.
         is_vehicle_restricted(datetime, digit): Checks if a vehicle with the given digit is restricted at the specified datetime.
     """
 
-    rules: List[PicoPlacaRule]
+    rules_by_day: Dict[int, List[PicoPlacaRule]]
 
     def __init__(self):
-        self.rules = []
+        self.rules_by_day = {0:[], 1:[], 2:[], 3:[], 4:[]}
     
     def add_rule(self, rule: PicoPlacaRule):
-        self.rules.append(rule)
+        for day in rule.days_of_week:
+            self.rules_by_day[day].append(rule)
 
     def has_rules(self) -> bool:
-        return len(self.rules) > 0
+        return any(len(rules) > 0 for rules in self.rules_by_day.values())
 
     def is_vehicle_restricted(self, datetime: datetime, digit: int, raise_on_no_rules: bool = True) -> bool:
         """
@@ -56,8 +57,9 @@ class PicoPlacaRuleSet:
             if raise_on_no_rules:
                 raise NoRulesDefinedError("No Pico y Placa rules are defined in the ruleset.")
             return False
-            
-        for rule in self.rules:
-            if rule.is_restricted(datetime.weekday(), datetime, digit):
+        
+        day = datetime.weekday()
+        for rule in self.rules_by_day[day]:
+            if rule.is_restricted(day, datetime, digit):
                 return True
         return False
