@@ -15,7 +15,8 @@ class DateTimeParser:
     """
 
     @staticmethod
-    def parse_datetime(date_time_str: str) -> datetime:
+    def parse_datetime(date_str: str, time_str: str) -> datetime:
+        date_time_str: str = date_str + " " + time_str
         try:
             return datetime.strptime(date_time_str, "%Y-%m-%d %H:%M")
         except ValueError:

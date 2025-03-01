@@ -4,7 +4,7 @@ from input import DateTimeParser, LicensePlateParser
 class TestDateTimeParser(unittest.TestCase):
 
     def test_parse_datetime(self):
-        datetime = DateTimeParser.parse_datetime("2021-09-01 08:00")
+        datetime = DateTimeParser.parse_datetime("2021-09-01", "08:00")
         self.assertEqual(datetime.year, 2021)
         self.assertEqual(datetime.month, 9)
         self.assertEqual(datetime.day, 1)
@@ -13,7 +13,7 @@ class TestDateTimeParser(unittest.TestCase):
     
     def test_parse_datetime_invalid_format(self):
         with self.assertRaises(ValueError):
-            DateTimeParser.parse_datetime("2021-09-01")
+            DateTimeParser.parse_datetime("2021-09-01", "")
 
 class TestLicensePlateParser(unittest.TestCase):
     
