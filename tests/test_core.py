@@ -1,7 +1,6 @@
 import unittest
 from datetime import time
 from core import PicoPlacaRule
-from input import DateTimeParser
 
 class TestPicoPlacaRule(unittest.TestCase):
 
