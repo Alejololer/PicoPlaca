@@ -5,7 +5,8 @@ ensuring it correctly determines vehicle restrictions based on day, time, and li
 """
 import unittest
 from datetime import time
-from core import PicoPlacaRule
+from core import PicoPlacaRule, PicoPlacaRuleSet
+from core.pico_placa_rule_set import NoRulesDefinedError
 
 class TestPicoPlacaRule(unittest.TestCase):
     """Test cases for the PicoPlacaRule class."""
@@ -14,7 +15,8 @@ class TestPicoPlacaRule(unittest.TestCase):
         """Test that is_restricted returns True when all restriction conditions are met."""
         rule = PicoPlacaRule([0,1,2], [1], time(7,0), time(9,30))
         self.assertTrue(rule.is_restricted(0, time(7,0), 1))
-        self.assertTrue(rule.is_restricted(0, time(9,30), 1))
+        # Right edge should be exclusive, so time(9,30) should not be restricted
+        self.assertFalse(rule.is_restricted(0, time(9,30), 1))
         self.assertTrue(rule.is_restricted(0, time(8,0), 1))
 
     def test_is_not_restricted_outside_window(self):
@@ -25,11 +27,11 @@ class TestPicoPlacaRule(unittest.TestCase):
         self.assertFalse(rule.is_restricted(0, time(10,0), 1))
 
     def test_is_restricted_at_boundary(self):
-        """Test that is_restricted returns True when the time is at the boundary of 
-        the restriction window."""
+        """Test that is_restricted returns True for the left edge (inclusive) 
+        and False for the right edge (exclusive)."""
         rule = PicoPlacaRule([0,1,2], [1], time(7,0), time(9,30))
-        self.assertTrue(rule.is_restricted(0, time(7,0), 1))
-        self.assertTrue(rule.is_restricted(0, time(9,30), 1))
+        self.assertTrue(rule.is_restricted(0, time(7,0), 1))  # Left edge is inclusive
+        self.assertFalse(rule.is_restricted(0, time(9,30), 1))  # Right edge is exclusive
 
     def test_is_not_restricted_different_day(self):
         """Test that is_restricted returns False when the day is not restricted."""

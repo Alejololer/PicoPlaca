@@ -58,6 +58,6 @@ class PicoPlacaRule:
         """
 
         if day_of_week in self.days_of_week and digit in self.restricted_digits:
-            if current_time >= self.start_time and current_time <= self.end_time:
+            if current_time >= self.start_time and current_time < self.end_time:
                 return True
         return False
