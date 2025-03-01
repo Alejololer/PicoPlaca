@@ -31,6 +31,21 @@ class PicoPlacaRule:
         self.end_time = end_time
     
     def is_restricted(self, day_of_week: int, current_time: time, digit: int) -> bool:
+        """
+        Determines whether a vehicle is restricted from circulation based on Pico y Placa rules.
+        Args:
+            day_of_week (int): Day of the week (0 = Monday, 1 = Tuesday, ..., 6 = Sunday).
+            current_time (time): The current time to check for restrictions.
+            digit (int): The last digit of the vehicle's license plate.
+        Returns:
+            bool: True if the vehicle is restricted from circulation, False otherwise.
+        Note:
+            A vehicle is restricted if all of the following conditions are met:
+            - The day of the week is in the rule's list of restricted days
+            - The last digit of the license plate is in the rule's list of restricted digits
+            - The current time is within the restricted time frame (between start_time and end_time)
+        """
+
         if day_of_week in self.days_of_week and digit in self.restricted_digits:
             if current_time >= self.start_time and current_time <= self.end_time:
                 return True
