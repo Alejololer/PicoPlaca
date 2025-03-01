@@ -23,7 +23,7 @@ class PicoPlacaRuleSet:
     This class allows adding rules and checking whether a vehicle with a specific 
     last digit in its license plate is restricted from circulation at a given datetime.
     Attributes:
-        rules_by_day (dict): A dictionary mapping weekdays (0-4) to lists of PicoPlacaRule objects.
+        rules_by_day (dict): A dictionary mapping weekdays (0-6) to lists of PicoPlacaRule objects.
     Methods:
         __init__(): Initializes a dictionary of rules indexed by weekday.
         add_rule(rule): Adds a rule to the rule set for the appropriate weekdays.
@@ -35,7 +35,8 @@ class PicoPlacaRuleSet:
     rules_by_day: Dict[int, List[PicoPlacaRule]]
 
     def __init__(self):
-        self.rules_by_day = {0:[], 1:[], 2:[], 3:[], 4:[]}
+        # Initialize for all days of the week
+        self.rules_by_day = {0:[], 1:[], 2:[], 3:[], 4:[], 5:[], 6:[]}
 
     def add_rule(self, rule: PicoPlacaRule):
         """
