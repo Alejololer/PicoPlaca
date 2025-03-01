@@ -1,5 +1,15 @@
-from typing import Dict, List
-from datetime import datetime, time
+"""
+Pico y Placa Rule Module
+
+This module defines the PicoPlacaRule class which represents a single rule in the 
+Pico y Placa system. Each rule specifies which vehicles are restricted from driving 
+based on the day of the week, time of day, and the last digit of the license plate number.
+
+The Pico y Placa system aims to reduce traffic congestion during peak hours by restricting
+vehicle circulation based on these parameters.
+"""
+from typing import List
+from datetime import time
 
 
 class PicoPlacaRule:
@@ -23,13 +33,14 @@ class PicoPlacaRule:
     restricted_digits: List[int]
     start_time: time
     end_time: time
-    
-    def __init__(self, days_of_week: List[int], restricted_digits: List[int], start_time: time, end_time: time):
+
+    def __init__(self, days_of_week: List[int], restricted_digits: List[int],
+                  start_time: time, end_time: time):
         self.days_of_week = days_of_week
         self.restricted_digits = restricted_digits
         self.start_time = start_time
         self.end_time = end_time
-    
+
     def is_restricted(self, day_of_week: int, current_time: time, digit: int) -> bool:
         """
         Determines whether a vehicle is restricted from circulation based on Pico y Placa rules.
