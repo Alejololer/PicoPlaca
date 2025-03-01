@@ -6,7 +6,9 @@ class OutputFormatter:
     Methods:
         format_prediction(is_restricted: bool) -> str: Formats the restriction prediction as a descriptive message.
     """
-    def format_prediction(self, is_restricted: bool) -> str:
+
+    @staticmethod
+    def format_prediction(is_restricted: bool) -> str:
         if is_restricted:
             return "Vehicle is restricted to circulate at this time and date"
         else:

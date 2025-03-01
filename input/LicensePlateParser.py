@@ -17,7 +17,8 @@ class LicensePlateParser:
                 ValueError: If an error occurs during the validation process.
     """
 
-    def parseLicensePlate(self, license_plate: str) -> int:
+    @staticmethod
+    def parseLicensePlate(license_plate: str) -> int:
         try:
             return bool(re.match("^[A-Z]{3}-[0-9]{3,4}$", license_plate))
         except Exception as e:

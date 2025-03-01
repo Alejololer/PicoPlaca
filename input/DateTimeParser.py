@@ -14,7 +14,8 @@ class DateTimeParser:
             ValueError: If the string format is invalid or cannot be parsed.
     """
 
-    def parse_datetime(self, date_time_str: str) -> datetime:
+    @staticmethod
+    def parse_datetime(date_time_str: str) -> datetime:
         try:
             return datetime.strptime(date_time_str, "%Y-%m-%d %H:%M:%S")
         except ValueError:
