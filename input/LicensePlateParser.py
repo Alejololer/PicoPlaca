@@ -18,7 +18,7 @@ class LicensePlateParser:
     """
 
     @staticmethod
-    def parseLicensePlate(license_plate: str) -> int:
+    def parse_license_plate(license_plate: str) -> int:
         if re.match("^[A-Z]{3}-[0-9]{3,4}$", license_plate):
             return int(license_plate[-1])
         else:
