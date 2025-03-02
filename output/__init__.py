@@ -1,5 +1,6 @@
 """
-The output module contains utilities for formatting and presenting prediction results.
+Output package for the PicoPlaca system.
+Contains modules for formatting and presenting results to users.
 """
 from .output_formatter import OutputFormatter
 

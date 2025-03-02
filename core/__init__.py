@@ -1,5 +1,6 @@
 """
-The core module contains the main business logic for the Pico y Placa system.
+Core package for the PicoPlaca system.
+Contains the main logic for predicting vehicle circulation restrictions.
 """
 from .pico_placa_rule import PicoPlacaRule
 from .pico_placa_rule_set import PicoPlacaRuleSet, NoRulesDefinedError
