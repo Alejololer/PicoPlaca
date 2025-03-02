@@ -77,7 +77,7 @@ class TestPicoPlacaPredictorEndToEnd(unittest.TestCase):
         self.assertEqual(result, self.NOT_RESTRICTED_MSG)
 
     def test_unrestricted_weekend(self):
-        """Test a vehicle on weekend (should never be restricted)."""
+        """Test a vehicle on weekend (should not be restricted)."""
         # Saturday with last digit 1
         result = self.predictor.predict_restriction("ABC-121", "2023-10-07", "08:00")
         self.assertEqual(result, self.NOT_RESTRICTED_MSG)

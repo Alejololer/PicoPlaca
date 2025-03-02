@@ -76,6 +76,43 @@ The application is organized into the following modules:
   - `output_formatter.py`: Formats prediction results
 - `cli.py`: Command-line interface
 
+## Testing
+
+The project includes a comprehensive test suite to ensure reliability and correctness.
+
+### Running Tests
+
+To run all tests:
+
+```bash
+python -m unittest discover -s tests
+```
+
+To run a specific test module:
+
+```bash
+python -m unittest tests.test_core
+python -m unittest tests.test_input
+python -m unittest tests.test_output
+python -m unittest tests.test_end_to_end
+```
+
+### Test Structure
+
+- `test_core.py`: Unit tests for the core components (PicoPlacaRule, PicoPlacaRuleSet, PicoPlacaPredictor)
+- `test_input.py`: Unit tests for input parsing (DateTimeParser, LicensePlateParser)
+- `test_output.py`: Unit tests for output formatting (OutputFormatter)
+- `test_end_to_end.py`: End-to-end tests that validate the entire system with real components
+
+### Test Coverage
+
+Tests cover various scenarios including:
+- Valid and invalid license plates
+- Boundary time conditions
+- Weekend vs. weekday restrictions
+- Error handling
+- Edge cases
+
 ### Class Diagram
 
 ![Class Diagram](img/ClassDiagram.svg)
