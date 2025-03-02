@@ -1,8 +1,7 @@
 """
 PicoPlaca CLI Application
 
-This module provides a command-line interface for the PicoPlaca system,
-which helps users determine vehicle circulation restrictions.
+Command-line interface for checking vehicle circulation restrictions under Pico y Placa rules.
 """
 import argparse
 import datetime

@@ -1,10 +1,7 @@
 """
 Date Time Parser Module
 
-This module provides functionality for parsing date and time strings into datetime objects.
-It contains the DateTimeParser class which handles the conversion of string 
-representations of dates and times into Python datetime objects for use in the 
-Pico y Placa system's time-based restriction rules.
+Converts string representations of dates and times into datetime objects for restriction rules.
 """
 from datetime import datetime
 

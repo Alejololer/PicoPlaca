@@ -1,16 +1,7 @@
 """
 PicoPlacaPredictor Module
 
-This module provides functionality to predict 'Pico y Placa' driving restrictions.
-'Pico y Placa' (Peak and Plate) is a traffic restriction policy implemented in various
-cities, particularly in Latin America, to reduce traffic congestion during peak hours.
-
-The system restricts vehicles from circulating based on the last digit of their 
-license plates on specific days and during designated time periods.
-
-This module contains the PicoPlacaPredictor class which evaluates whether a vehicle
-with a given license plate is restricted from circulation at a specific date and time
-according to a defined rule set.
+Evaluates vehicle circulation restrictions based on license plates, dates, and times.
 """
 
 from input import LicensePlateParser, DateTimeParser

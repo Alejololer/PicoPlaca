@@ -1,7 +1,7 @@
 """
-Test module for the PicoPlacaRule class.
-This module contains unit tests that verify the functionality of the PicoPlacaRule class,
-ensuring it correctly determines vehicle restrictions based on day, time, and license plate digit.
+Test module for the core PicoPlaca components.
+
+Contains unit tests for PicoPlacaRule, PicoPlacaRuleSet, and PicoPlacaPredictor classes.
 """
 import unittest
 from datetime import time, datetime

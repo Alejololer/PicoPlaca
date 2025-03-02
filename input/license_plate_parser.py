@@ -1,10 +1,7 @@
 """
 License Plate Parser Module
 
-This module provides functionality for validating and extracting information from
-vehicle license plate numbers, specifically for the Pico y Placa system.
-It contains the LicensePlateParser class which can validate license plate formats
-and extract the last digit, which is used for determining driving restrictions.
+Validates license plates and extracts the last digit used for determining driving restrictions.
 """
 import re
 

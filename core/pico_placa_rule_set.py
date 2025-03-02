@@ -1,12 +1,7 @@
 """
 Pico y Placa Rule Set Module
 
-This module defines the PicoPlacaRuleSet class which manages a collection of Pico y Placa rules.
-It provides functionality to add rules to the set and check if a vehicle with a specific
-license plate digit is restricted from circulation at a given date and time.
-
-The module also defines a custom exception, NoRulesDefinedError, which is raised when
-attempting to check restrictions with no rules defined.
+Manages collections of restriction rules and evaluates vehicle circulation permissions.
 """
 from datetime import datetime
 from typing import List, Dict

@@ -1,13 +1,7 @@
 """
 Output Formatter Module
 
-This module provides utilities for formatting the prediction outputs of the Pico y Placa system.
-It contains the OutputFormatter class which converts boolean restriction results into
-human-readable messages for end users.
-
-The module is part of the PicoPlaca project which helps users determine if a vehicle
-is restricted from circulation based on license plate, date, and time according to
-local traffic restriction regulations.
+Provides utilities for formatting prediction results into human-readable messages.
 """
 
 class OutputFormatter:

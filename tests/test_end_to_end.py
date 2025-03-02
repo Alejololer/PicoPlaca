@@ -1,8 +1,7 @@
 """
 End-to-End tests for the Pico y Placa system.
 
-This module contains end-to-end tests that verify the complete functionality of the
-Pico y Placa system, using real components (no mocks) to ensure integration works correctly.
+Contains comprehensive tests that verify the complete system functionality using real components.
 """
 import unittest
 from datetime import time

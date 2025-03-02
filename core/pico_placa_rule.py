@@ -1,12 +1,7 @@
 """
 Pico y Placa Rule Module
 
-This module defines the PicoPlacaRule class which represents a single rule in the 
-Pico y Placa system. Each rule specifies which vehicles are restricted from driving 
-based on the day of the week, time of day, and the last digit of the license plate number.
-
-The Pico y Placa system aims to reduce traffic congestion during peak hours by restricting
-vehicle circulation based on these parameters.
+Defines individual restriction rules based on day of week, time of day, and license plate digits.
 """
 from typing import List
 from datetime import time
