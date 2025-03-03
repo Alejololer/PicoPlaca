@@ -30,24 +30,34 @@ def setup_default_rules() -> PicoPlacaRuleSet:
     afternoon_end = time(20, 0)
 
     # Monday: digits 1, 2
-    rule_set.add_rule(PicoPlacaRule([0], [1, 2], morning_start, morning_end))
-    rule_set.add_rule(PicoPlacaRule([0], [1, 2], afternoon_start, afternoon_end))
+    rule_set.add_rule(PicoPlacaRule(days_of_week=[0], restricted_digits=[1, 2],
+                                     start_time=morning_start, end_time=morning_end))
+    rule_set.add_rule(PicoPlacaRule(days_of_week=[0], restricted_digits=[1, 2],
+                                     start_time=afternoon_start, end_time=afternoon_end))
 
     # Tuesday: digits 3, 4
-    rule_set.add_rule(PicoPlacaRule([1], [3, 4], morning_start, morning_end))
-    rule_set.add_rule(PicoPlacaRule([1], [3, 4], afternoon_start, afternoon_end))
+    rule_set.add_rule(PicoPlacaRule(days_of_week=[1], restricted_digits=[3, 4],
+                                     start_time=morning_start, end_time=morning_end))
+    rule_set.add_rule(PicoPlacaRule(days_of_week=[1], restricted_digits=[3, 4],
+                                     start_time=afternoon_start, end_time=afternoon_end))
 
     # Wednesday: digits 5, 6
-    rule_set.add_rule(PicoPlacaRule([2], [5, 6], morning_start, morning_end))
-    rule_set.add_rule(PicoPlacaRule([2], [5, 6], afternoon_start, afternoon_end))
+    rule_set.add_rule(PicoPlacaRule(days_of_week=[2], restricted_digits=[5, 6],
+                                     start_time=morning_start, end_time=morning_end))
+    rule_set.add_rule(PicoPlacaRule(days_of_week=[2], restricted_digits=[5, 6],
+                                     start_time=afternoon_start, end_time=afternoon_end))
 
     # Thursday: digits 7, 8
-    rule_set.add_rule(PicoPlacaRule([3], [7, 8], morning_start, morning_end))
-    rule_set.add_rule(PicoPlacaRule([3], [7, 8], afternoon_start, afternoon_end))
+    rule_set.add_rule(PicoPlacaRule(days_of_week=[3], restricted_digits=[7, 8],
+                                     start_time=morning_start, end_time=morning_end))
+    rule_set.add_rule(PicoPlacaRule(days_of_week=[3], restricted_digits=[7, 8],
+                                     start_time=afternoon_start, end_time=afternoon_end))
 
     # Friday: digits 9, 0
-    rule_set.add_rule(PicoPlacaRule([4], [9, 0], morning_start, morning_end))
-    rule_set.add_rule(PicoPlacaRule([4], [9, 0], afternoon_start, afternoon_end))
+    rule_set.add_rule(PicoPlacaRule(days_of_week=[4], restricted_digits=[9, 0],
+                                     start_time=morning_start, end_time=morning_end))
+    rule_set.add_rule(PicoPlacaRule(days_of_week=[4], restricted_digits=[9, 0],
+                                     start_time=afternoon_start, end_time=afternoon_end))
 
     return rule_set
 

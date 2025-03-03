@@ -28,24 +28,34 @@ class TestPicoPlacaPredictorEndToEnd(unittest.TestCase):
         self.rule_set = PicoPlacaRuleSet()
 
         # Monday restrictions (plate numbers 1 and 2)
-        self.rule_set.add_rule(PicoPlacaRule([0], [1, 2], time(6, 0), time(9, 30)))
-        self.rule_set.add_rule(PicoPlacaRule([0], [1, 2], time(16, 0), time(20, 0)))
+        self.rule_set.add_rule(PicoPlacaRule(days_of_week=[0], restricted_digits=[1, 2],
+                                              start_time=time(6, 0), end_time=time(9, 30)))
+        self.rule_set.add_rule(PicoPlacaRule(days_of_week=[0], restricted_digits=[1, 2],
+                                              start_time=time(16, 0), end_time=time(20, 0)))
 
         # Tuesday restrictions (plate numbers 3 and 4)
-        self.rule_set.add_rule(PicoPlacaRule([1], [3, 4], time(6, 0), time(9, 30)))
-        self.rule_set.add_rule(PicoPlacaRule([1], [3, 4], time(16, 0), time(20, 0)))
+        self.rule_set.add_rule(PicoPlacaRule(days_of_week=[1], restricted_digits=[3, 4],
+                                              start_time=time(6, 0), end_time=time(9, 30)))
+        self.rule_set.add_rule(PicoPlacaRule(days_of_week=[1], restricted_digits=[3, 4],
+                                              start_time=time(16, 0), end_time=time(20, 0)))
 
         # Wednesday restrictions (plate numbers 5 and 6)
-        self.rule_set.add_rule(PicoPlacaRule([2], [5, 6], time(6, 0), time(9, 30)))
-        self.rule_set.add_rule(PicoPlacaRule([2], [5, 6], time(16, 0), time(20, 0)))
+        self.rule_set.add_rule(PicoPlacaRule(days_of_week=[2], restricted_digits=[5, 6],
+                                              start_time=time(6, 0), end_time=time(9, 30)))
+        self.rule_set.add_rule(PicoPlacaRule(days_of_week=[2], restricted_digits=[5, 6],
+                                              start_time=time(16, 0), end_time=time(20, 0)))
 
         # Thursday restrictions (plate numbers 7 and 8)
-        self.rule_set.add_rule(PicoPlacaRule([3], [7, 8], time(6, 0), time(9, 30)))
-        self.rule_set.add_rule(PicoPlacaRule([3], [7, 8], time(16, 0), time(20, 0)))
+        self.rule_set.add_rule(PicoPlacaRule(days_of_week=[3], restricted_digits=[7, 8],
+                                              start_time=time(6, 0), end_time=time(9, 30)))
+        self.rule_set.add_rule(PicoPlacaRule(days_of_week=[3], restricted_digits=[7, 8],
+                                              start_time=time(16, 0), end_time=time(20, 0)))
 
         # Friday restrictions (plate numbers 9 and 0)
-        self.rule_set.add_rule(PicoPlacaRule([4], [9, 0], time(6, 0), time(9, 30)))
-        self.rule_set.add_rule(PicoPlacaRule([4], [9, 0], time(16, 0), time(20, 0)))
+        self.rule_set.add_rule(PicoPlacaRule(days_of_week=[4], restricted_digits=[9, 0],
+                                              start_time=time(6, 0), end_time=time(9, 30)))
+        self.rule_set.add_rule(PicoPlacaRule(days_of_week=[4], restricted_digits=[9, 0],
+                                              start_time=time(16, 0), end_time=time(20, 0)))
 
         # Create the predictor with the rule set
         self.predictor = PicoPlacaPredictor(self.rule_set)

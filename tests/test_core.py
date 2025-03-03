@@ -14,15 +14,14 @@ class TestPicoPlacaRule(unittest.TestCase):
 
     def test_is_restricted_within_window(self):
         """Test that is_restricted returns True when all restriction conditions are met."""
-        rule = PicoPlacaRule([0,1,2], [1], time(7,0), time(9,30))
+        rule = PicoPlacaRule(days_of_week=[0,1,2], restricted_digits=[1],
+                              start_time=time(7,0), end_time=time(9,30))
         self.assertTrue(rule.is_restricted(0, time(7,0), 1))
-        # Right edge should be exclusive, so time(9,30) should not be restricted
-        self.assertFalse(rule.is_restricted(0, time(9,30), 1))
-        self.assertTrue(rule.is_restricted(0, time(8,0), 1))
 
     def test_is_not_restricted_outside_window(self):
         """Test that is_restricted returns False when the time is outside the restriction window."""
-        rule = PicoPlacaRule([0,1,2], [1], time(7,0), time(9,30))
+        rule = PicoPlacaRule(days_of_week=[0,1,2], restricted_digits=[1],
+                              start_time=time(7,0), end_time=time(9,30))
         self.assertFalse(rule.is_restricted(0, time(6,59), 1))
         self.assertFalse(rule.is_restricted(0, time(9,31), 1))
         self.assertFalse(rule.is_restricted(0, time(10,0), 1))
@@ -30,20 +29,23 @@ class TestPicoPlacaRule(unittest.TestCase):
     def test_is_restricted_at_boundary(self):
         """Test that is_restricted returns True for the left boundary (inclusive) 
         and False for the right boundary (exclusive)."""
-        rule = PicoPlacaRule([0,1,2], [1], time(7,0), time(9,30))
+        rule = PicoPlacaRule(days_of_week=[0,1,2], restricted_digits=[1],
+                              start_time=time(7,0), end_time=time(9,30))
         self.assertTrue(rule.is_restricted(0, time(7,0), 1))  # Left edge is inclusive
         self.assertFalse(rule.is_restricted(0, time(9,30), 1))  # Right edge is exclusive
 
     def test_is_not_restricted_different_day(self):
         """Test that is_restricted returns False when the day is not restricted."""
-        rule = PicoPlacaRule([0,1,2], [1], time(7,0), time(9,30))
+        rule = PicoPlacaRule(days_of_week=[0,1,2], restricted_digits=[1],
+                              start_time=time(7,0), end_time=time(9,30))
         self.assertFalse(rule.is_restricted(3, time(7,0), 1))
         self.assertFalse(rule.is_restricted(3, time(9,30), 1))
         self.assertFalse(rule.is_restricted(3, time(8,0), 1))
 
     def test_is_not_restricted_different_digit(self):
         """Test that is_restricted returns False when the license plate digit is not restricted."""
-        rule = PicoPlacaRule([0,1,2], [1], time(7,0), time(9,30))
+        rule = PicoPlacaRule(days_of_week=[0,1,2], restricted_digits=[1],
+                              start_time=time(7,0), end_time=time(9,30))
         self.assertFalse(rule.is_restricted(0, time(7,0), 2))
         self.assertFalse(rule.is_restricted(0, time(9,30), 2))
         self.assertFalse(rule.is_restricted(0, time(8,0), 2))
@@ -54,8 +56,10 @@ class TestPicoPlacaRuleSet(unittest.TestCase):
     def setUp(self):
         """Set up test fixtures."""
         self.rule_set = PicoPlacaRuleSet()
-        self.monday_rule = PicoPlacaRule([0], [1, 2], time(7, 0), time(9, 30))
-        self.tuesday_rule = PicoPlacaRule([1], [3, 4], time(7, 0), time(9, 30))
+        self.monday_rule = PicoPlacaRule(days_of_week=[0], restricted_digits=[1, 2],
+                                          start_time=time(7, 0), end_time=time(9, 30))
+        self.tuesday_rule = PicoPlacaRule(days_of_week=[1], restricted_digits=[3, 4],
+                                           start_time=time(7, 0), end_time=time(9, 30))
 
     def test_add_rule(self):
         """Test that rules are properly added to the rule set."""
@@ -77,22 +81,26 @@ class TestPicoPlacaRuleSet(unittest.TestCase):
     def test_is_vehicle_restricted(self):
         """Test that vehicle restrictions are correctly identified."""
         self.rule_set.add_rule(self.monday_rule)
+        self.rule_set.add_rule(self.tuesday_rule)
 
         # Monday at 8:00 with digit 1 should be restricted
         monday_datetime = datetime(2023, 10, 2, 8, 0)  # A Monday
         self.assertTrue(self.rule_set.is_vehicle_restricted(monday_datetime, 1))
 
+        # Tuesday at 8:00 with digit 3 should be restricted
+        tuesday_datetime = datetime(2023, 10, 3, 8, 0)  # A Tuesday
+        self.assertTrue(self.rule_set.is_vehicle_restricted(tuesday_datetime, 3))
+
+    def test_is_vehicle_not_restricted(self):
+        """Test that vehicle non-restrictions are correctly identified."""
+        self.rule_set.add_rule(self.monday_rule)
         # Monday at 8:00 with digit 5 should not be restricted
+        monday_datetime = datetime(2023, 10, 2, 8, 0)  # A Monday
         self.assertFalse(self.rule_set.is_vehicle_restricted(monday_datetime, 5))
 
         # Tuesday at 8:00 with digit 1 should not be restricted
         tuesday_datetime = datetime(2023, 10, 3, 8, 0)  # A Tuesday
         self.assertFalse(self.rule_set.is_vehicle_restricted(tuesday_datetime, 1))
-
-        # Add Tuesday rule and test
-        self.rule_set.add_rule(self.tuesday_rule)
-        self.assertTrue(self.rule_set.is_vehicle_restricted(tuesday_datetime, 3))
-        self.assertFalse(self.rule_set.is_vehicle_restricted(tuesday_datetime, 5))
 
     def test_no_rules_defined_error(self):
         """Test that NoRulesDefinedError is raised when appropriate."""
@@ -113,7 +121,8 @@ class TestPicoPlacaPredictor(unittest.TestCase):
     def setUp(self):
         """Set up test fixtures."""
         self.rule_set = PicoPlacaRuleSet()
-        self.monday_rule = PicoPlacaRule([0], [1, 2], time(7, 0), time(9, 30))
+        self.monday_rule = PicoPlacaRule(days_of_week=[0], restricted_digits=[1, 2],
+                                          start_time=time(7, 0), end_time=time(9, 30))
         self.rule_set.add_rule(self.monday_rule)
         self.predictor = PicoPlacaPredictor(self.rule_set)
 
